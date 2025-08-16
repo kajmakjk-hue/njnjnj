@@ -514,7 +514,7 @@
       margin-bottom: 3px;
     }
 
-    /* Стили для страницы пополнения (обновленные) */
+    /* Стили для страницы пополнения (новые) */
     #payment-page {
       position: fixed;
       top: 0;
@@ -912,36 +912,6 @@
       color: #4CAF50;
     }
 
-    /* Анимации */
-    @keyframes spin {
-      to { transform: translate(-50%, -50%) rotate(360deg); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes modalFadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(0.95); }
-      100% { transform: scale(1); }
-    }
-
-    @keyframes unflip {
-      0% { transform: rotateY(180deg); }
-      100% { transform: rotateY(0); }
-    }
-
-    .fade-in {
-      animation: fadeIn 0.5s ease-in;
-    }
-
     /* Конфирм-модалка для кода подтверждения */
     .confirm-modal {
       display: none;
@@ -1015,6 +985,162 @@
     .confirm-submit {
       background: var(--accent);
       color: white;
+    }
+
+    /* Новые стили для страницы пополнения */
+    .container{max-width:480px;margin:0 auto;padding:16px;min-height:100vh}
+    .header{display:flex;align-items:center;justify-content:center;padding:24px 0 12px;position:relative}
+    .header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:.5px;background:rgba(255,255,255,.1);transform:scaleY(.5)}
+    .title{font-weight:600;font-size:17px}
+
+    .controls{display:flex;justify-content:center;gap:12px;margin:8px 0 16px}
+    .btn{background:rgba(255,255,255,.08);border:none;padding:10px 16px;border-radius:var(--radius);color:var(--text);cursor:pointer;transition:transform .1s var(--ios-ease),background .2s var(--ios-ease)}
+    .btn:hover{background:rgba(255,255,255,.12)}
+    .btn:active{transform:scale(.96)}
+
+    .panel{margin-top:12px;background:var(--panel);border-radius:var(--radius);padding:16px;border:.5px solid rgba(255,255,255,.05)}
+    .input{width:100%;padding:12px 14px;border-radius:var(--radius);border:none;background:rgba(255,255,255,.06);color:var(--text);font-size:16px;transition:box-shadow 0.3s var(--ios-ease)}
+    .input:focus{outline:none;background:rgba(255,255,255,.1);box-shadow: 0 0 0 2px var(--accent)}
+    .pay{margin-top:16px;width:100%;padding:14px;border-radius:var(--radius);border:none;background:var(--accent-gradient);color:#000;font-weight:600;cursor:pointer;transition:transform .08s var(--ios-ease),background .2s var(--ios-ease);background-size:200% 200%;animation:gradientShift 5s ease infinite, breath 3s ease-in-out infinite}
+    .pay:hover{background:rgba(255,255,255,.9)}
+    .pay:active{transform:scale(.96)}
+    .pay.white{background:#fff;color:#000;animation:none}
+
+    /* Voice input button */
+    .voice-input-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--muted);
+      padding: 5px;
+      transition: transform 0.2s var(--ios-ease);
+    }
+
+    .voice-input-btn:active {
+      transform: translateY(-50%) scale(0.9);
+    }
+
+    /* Form elements */
+    .form-row {
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px;
+      border-radius: var(--radius);
+      border: none;
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      font-size: 16px;
+      transition: all 0.3s var(--ios-ease);
+    }
+
+    .form-input:focus {
+      background: rgba(255,255,255,.1);
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* Success animation */
+    @keyframes checkmark {
+      0% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes successBackground {
+      0% { background: rgba(0,0,0,0.8); }
+      50% { background: rgba(40,60,40,0.8); }
+      100% { background: rgba(0,0,0,0.8); }
+    }
+
+    .success-checkmark {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      position: relative;
+    }
+
+    .success-checkmark::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: rgba(0, 255, 0, 0.1);
+      animation: checkmark 0.6s var(--ios-bounce);
+    }
+
+    .success-checkmark::after {
+      content: "✓";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 40px;
+      color: #4CAF50;
+    }
+
+    .success-modal {
+      animation: successBackground 1.5s var(--ios-ease);
+    }
+
+    /* Анимации */
+    @keyframes spin {
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes unflip {
+      0% { transform: rotateY(180deg); }
+      100% { transform: rotateY(0); }
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes breath {
+      0%, 100% { box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3); }
+      50% { box-shadow: 0 4px 25px rgba(0, 122, 255, 0.5); }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
     }
   </style>
 </head>
@@ -1166,99 +1292,94 @@
     </div>
   </div>
 
-  <!-- Страница пополнения (обновленная) -->
+  <!-- Страница пополнения (новая версия) -->
   <div id="payment-page">
-    <div class="payment-container">
-      <div class="payment-header">
-        <button class="back-btn" onclick="hidePaymentPage()">←</button>
-        <div class="payment-title">Пополнение баланса</div>
-        <div style="width:40px;"></div>
-      </div>
+    <div class="container">
+      <div class="header"><div class="title">Пополнение</div></div>
 
       <div class="carousel-wrap">
-        <div class="carousel" id="carousel"></div>
+        <div id="carousel" class="carousel" aria-label="Карты для пополнения"></div>
       </div>
 
-      <button id="add-card-btn" class="add-card-btn" onclick="showAddCardModal()">
-        <span>+</span> Добавить новую карту
-      </button>
-
-      <div>
-        <div class="label">Сумма пополнения</div>
-        <input id="amount-input" class="amount-input" placeholder="0.00" inputmode="decimal" value="1000">
+      <div class="controls" aria-hidden="false">
+        <button class="btn" id="prevBtn" aria-label="Предыдущая карта">←</button>
+        <button class="btn" id="enterDataBtn" aria-label="Внести данные">Внести данные</button>
+        <button class="btn" id="nextBtn" aria-label="Следующая карта">→</button>
       </div>
 
-      <div class="quick-amounts">
-        <button class="quick-amount" data-amount="100">100 ₽</button>
-        <button class="quick-amount" data-amount="500">500 ₽</button>
-        <button class="quick-amount" data-amount="1000">1000 ₽</button>
-      </div>
+      <div class="panel" aria-labelledby="amountTitle">
+        <div id="amountTitle" class="label">Сумма пополнения</div>
+        <div style="margin-top:12px;position:relative;">
+          <input id="amountInput" class="input" type="number" inputmode="decimal" placeholder="0.00" aria-label="Сумма">
+          <button id="voiceInputBtn" class="voice-input-btn" aria-label="Голосовой ввод">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M12 1a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" stroke="currentColor" stroke-width="2"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </button>
+        </div>
 
-      <div>
-        <div class="row"><div class="label">Введено</div><div id="entered-amount" class="big">0.00 ₽</div></div>
-        <div class="row"><div class="label">Комиссия</div><div id="commission-amount" class="big">3%</div></div>
-        <div class="row"><div class="label">Чистыми</div><div id="net-amount" class="big">0.00 ₽</div></div>
-        <div class="row"><div class="label">В USD (≈)</div><div id="usd-amount" class="big">0.00 $</div></div>
-      </div>
+        <div class="quick-amounts">
+          <button class="btn quick-amount" data-amount="100">100 ₽</button>
+          <button class="btn quick-amount" data-amount="500">500 ₽</button>
+          <button class="btn quick-amount" data-amount="1000">1000 ₽</button>
+        </div>
 
-      <button id="pay-btn" class="pay-btn">Пополнить</button>
+        <div style="margin-top:12px">
+          <div class="row"><div class="label">Введено</div><div id="entered" class="big">0.00 ₽</div></div>
+          <div class="row"><div class="label">Комиссия</div><div id="commission" class="big">3%</div></div>
+          <div class="row"><div class="label">Чистыми</div><div id="net" class="big">0.00 ₽</div></div>
+          <div class="row"><div class="label">В USD (≈)</div><div id="usd" class="big">0.00 $</div></div>
+        </div>
+
+        <button id="payBtn" class="pay white" aria-label="Оплатить">Пополнить</button>
+      </div>
     </div>
   </div>
 
-  <!-- Модальное окно для добавления карты -->
-  <div id="add-card-modal" class="modal">
+  <!-- Card Modal -->
+  <div id="modal" class="modal">
     <div class="modal-content">
-      <h3 class="modal-title">Введите данные карты</h3>
+      <h3 style="margin-top: 0; margin-bottom: 20px;">Введите данные карты</h3>
       
       <div class="form-row" style="position:relative;">
         <label class="form-label">Номер карты</label>
-        <input id="card-number-input" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19">
-        <div id="card-brand" class="auto-brand"></div>
+        <input id="cardNumberInput" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19">
+        <div id="cardBrand" class="auto-brand"></div>
       </div>
       
       <div class="form-row">
         <label class="form-label">Имя держателя</label>
-        <input id="card-holder-input" class="form-input" placeholder="IVAN IVANOV">
+        <input id="cardHolderInput" class="form-input card-holder-input" placeholder="IVAN IVANOV">
       </div>
       
       <div class="form-grid">
         <div class="form-row">
           <label class="form-label">Срок действия</label>
-          <input id="card-expiry-input" class="form-input" placeholder="MM/YY" maxlength="5">
+          <input id="cardExpiryInput" class="form-input" placeholder="MM/YY" maxlength="5">
         </div>
         <div class="form-row">
           <label class="form-label">CVC/CVV</label>
-          <input id="card-cvc-input" class="form-input" placeholder="123" maxlength="4" inputmode="numeric">
+          <input id="cardCvcInput" class="form-input" placeholder="123" maxlength="4" inputmode="numeric">
         </div>
       </div>
       
-      <button id="delete-card-btn" class="modal-btn btn-danger">Удалить карту</button>
-      <button id="save-card-btn" class="modal-btn btn-primary">Сохранить карту</button>
+      <button id="deleteCardBtn" class="btn" style="margin-top: 12px; background: rgba(255,59,48,.1); color: #ff3b30;">Удалить карту</button>
+      <button id="saveCardBtn" class="pay" style="margin-top: 20px;">Сохранить карту</button>
     </div>
   </div>
 
-  <!-- Модальное окно успешного пополнения -->
-  <div id="success-modal" class="modal">
+  <!-- Success Modal Template -->
+  <div id="successModalTemplate" style="display:none;">
     <div class="modal-content" style="text-align:center;">
-      <div class="success-checkmark">✓</div>
+      <div class="success-checkmark"></div>
       <h3>Пополнение успешно!</h3>
-      <p id="success-amount-text"></p>
-      <button class="modal-btn btn-primary" onclick="hideSuccessModal()">OK</button>
+      <p id="successAmountText"></p>
+      <button class="pay" style="margin-top:20px;">OK</button>
     </div>
   </div>
 
-  <!-- Модальное окно подтверждения кода -->
-  <div id="confirm-modal" class="confirm-modal">
-    <div class="confirm-content">
-      <h3 class="confirm-title">Подтверждение платежа</h3>
-      <p class="confirm-message">Введите код подтверждения, отправленный на ваш телефон</p>
-      <input type="text" id="confirm-code" class="confirm-input" maxlength="6" placeholder="••••••">
-      <div class="confirm-buttons">
-        <button class="confirm-btn confirm-cancel" onclick="hideConfirmModal()">Отмена</button>
-        <button class="confirm-btn confirm-submit" onclick="confirmPayment()">Подтвердить</button>
-      </div>
-    </div>
-  </div>
+  <canvas id="particles" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;opacity:0.05;"></canvas>
 
   <script>
     // Основные функции
@@ -1425,44 +1546,6 @@
       triggerVibration();
     }
 
-    function showAddCardModal() {
-      document.getElementById('add-card-modal').style.display = 'flex';
-      document.getElementById('card-number-input').focus();
-      // Очищаем поля при открытии
-      document.getElementById('card-number-input').value = '';
-      document.getElementById('card-holder-input').value = '';
-      document.getElementById('card-expiry-input').value = '';
-      document.getElementById('card-cvc-input').value = '';
-      document.getElementById('card-brand').textContent = '';
-      document.getElementById('card-brand').classList.remove('show');
-      triggerVibration();
-    }
-
-    function hideAddCardModal() {
-      document.getElementById('add-card-modal').style.display = 'none';
-    }
-
-    function showSuccessModal(amount) {
-      document.getElementById('success-amount-text').textContent = 
-        `Сумма: ${formatCurrency(amount, '₽')}`;
-      document.getElementById('success-modal').style.display = 'flex';
-    }
-
-    function hideSuccessModal() {
-      document.getElementById('success-modal').style.display = 'none';
-    }
-
-    function showConfirmModal() {
-      document.getElementById('confirm-modal').classList.add('show');
-      document.getElementById('confirm-code').focus();
-      triggerVibration();
-    }
-
-    function hideConfirmModal() {
-      document.getElementById('confirm-modal').classList.remove('show');
-      triggerVibration();
-    }
-
     function handleProfileClick(action) {
       triggerVibration();
       if (typeof action === 'string' && action.startsWith('http')) {
@@ -1586,7 +1669,7 @@
       triggerVibration();
     }
 
-    // Логика страницы пополнения
+    // Логика страницы пополнения (новая версия)
     let cards = [];
     let exchangeRate = 75;
     let selectedCard = 0;
@@ -1649,7 +1732,7 @@
         `;
         
         cardElement.addEventListener('click', (e) => {
-          if (e.target.closest('.quick-amount') || e.target.closest('.pay-btn')) return;
+          if (e.target.closest('.btn')) return;
           
           if (cardElement.classList.contains('flipped')) {
             cardElement.classList.remove('flipped');
@@ -1710,29 +1793,29 @@
       
       for (const [brand, regex] of Object.entries(brands)) {
         if (regex.test(num)) {
-          document.getElementById('card-brand').textContent = brand;
-          document.getElementById('card-brand').classList.add('show');
+          document.getElementById('cardBrand').textContent = brand;
+          document.getElementById('cardBrand').classList.add('show');
           return brand;
         }
       }
       
-      document.getElementById('card-brand').textContent = '';
-      document.getElementById('card-brand').classList.remove('show');
+      document.getElementById('cardBrand').textContent = '';
+      document.getElementById('cardBrand').classList.remove('show');
       return '';
     }
 
     // Обновление сумм
     function updateAmounts() {
-      const amount = parseFloat(document.getElementById('amount-input').value) || 0;
+      const amount = parseFloat(document.getElementById('amountInput').value) || 0;
       const commissionRate = calculateCommission(amount);
       const commission = amount * commissionRate;
       const net = amount - commission;
       const usd = net / exchangeRate;
       
-      document.getElementById('entered-amount').textContent = formatCurrency(amount, '₽');
-      document.getElementById('commission-amount').textContent = `${(commissionRate * 100).toFixed(1)}% (${formatCurrency(commission, '₽')})`;
-      document.getElementById('net-amount').textContent = formatCurrency(net, '₽');
-      document.getElementById('usd-amount').textContent = formatCurrency(usd, '$');
+      document.getElementById('entered').textContent = formatCurrency(amount, '₽');
+      document.getElementById('commission').textContent = `${(commissionRate * 100).toFixed(1)}% (${formatCurrency(commission, '₽')})`;
+      document.getElementById('net').textContent = formatCurrency(net, '₽');
+      document.getElementById('usd').textContent = formatCurrency(usd, '$');
     }
 
     // Дебаунс
@@ -1781,14 +1864,14 @@
         return;
       }
       
-      const payBtn = document.getElementById('pay-btn');
+      const payBtn = document.getElementById('payBtn');
       payBtn.classList.add('loading');
       
       setTimeout(() => {
         hideConfirmModal();
         payBtn.classList.remove('loading');
         
-        const amount = parseFloat(document.getElementById('amount-input').value);
+        const amount = parseFloat(document.getElementById('amountInput').value);
         showSuccessModal(amount);
         
         // Обновляем баланс в каюте
@@ -1836,18 +1919,18 @@
       // Быстрый выбор суммы
       document.querySelectorAll('.quick-amount').forEach(btn => {
         btn.addEventListener('click', () => {
-          document.getElementById('amount-input').value = btn.dataset.amount;
+          document.getElementById('amountInput').value = btn.dataset.amount;
           updateAmounts();
           triggerVibration();
         });
       });
 
       // Ввод суммы
-      document.getElementById('amount-input').addEventListener('input', debounce(updateAmounts));
+      document.getElementById('amountInput').addEventListener('input', debounce(updateAmounts));
 
       // Кнопка пополнения
-      document.getElementById('pay-btn').addEventListener('click', () => {
-        const amount = parseFloat(document.getElementById('amount-input').value);
+      document.getElementById('payBtn').addEventListener('click', () => {
+        const amount = parseFloat(document.getElementById('amountInput').value);
         
         if (!amount || amount <= 0) {
           alert('Введите сумму пополнения');
@@ -1865,7 +1948,7 @@
       });
 
       // Форматирование номера карты
-      document.getElementById('card-number-input').addEventListener('input', (e) => {
+      document.getElementById('cardNumberInput').addEventListener('input', (e) => {
         const formatted = formatCardNumber(e.target.value);
         if (e.target.value !== formatted) {
           e.target.value = formatted;
@@ -1874,12 +1957,12 @@
       });
 
       // Фиксированный ввод имени держателя
-      document.getElementById('card-holder-input').addEventListener('input', (e) => {
+      document.getElementById('cardHolderInput').addEventListener('input', (e) => {
         e.target.value = e.target.value.replace(/[^A-Za-z\s]/g, '').toUpperCase();
       });
 
       // Форматирование срока действия
-      document.getElementById('card-expiry-input').addEventListener('input', (e) => {
+      document.getElementById('cardExpiryInput').addEventListener('input', (e) => {
         const value = e.target.value.replace(/\D/g,'');
         if (value.length > 2) {
           e.target.value = `${value.substring(0,2)}/${value.substring(2,4)}`;
@@ -1889,16 +1972,16 @@
       });
 
       // Ввод CVC/CVV
-      document.getElementById('card-cvc-input').addEventListener('input', (e) => {
+      document.getElementById('cardCvcInput').addEventListener('input', (e) => {
         e.target.value = e.target.value.replace(/\D/g, '').substring(0, 4);
       });
 
       // Сохранение карты
-      document.getElementById('save-card-btn').addEventListener('click', () => {
-        const number = document.getElementById('card-number-input').value.trim();
-        const holder = document.getElementById('card-holder-input').value.trim().toUpperCase();
-        const expiry = document.getElementById('card-expiry-input').value.trim();
-        const cvc = document.getElementById('card-cvc-input').value.trim();
+      document.getElementById('saveCardBtn').addEventListener('click', () => {
+        const number = document.getElementById('cardNumberInput').value.trim();
+        const holder = document.getElementById('cardHolderInput').value.trim().toUpperCase();
+        const expiry = document.getElementById('cardExpiryInput').value.trim();
+        const cvc = document.getElementById('cardCvcInput').value.trim();
         const brand = detectCardBrand(number) || 'UNKNOWN';
 
         if (!number || number.replace(/\D/g,'').length < 16) {
@@ -1958,13 +2041,13 @@
         renderCarousel();
         
         // Закрываем модальное окно
-        hideAddCardModal();
+        document.getElementById('modal').classList.remove('show');
         triggerVibration();
       });
 
       // Удаление карты
-      document.getElementById('delete-card-btn').addEventListener('click', () => {
-        const number = document.getElementById('card-number-input').value.trim();
+      document.getElementById('deleteCardBtn').addEventListener('click', () => {
+        const number = document.getElementById('cardNumberInput').value.trim();
         const cardIndex = cards.findIndex(c => 
           c.fullNumber === number.replace(/\D/g, '')
         );
@@ -1974,7 +2057,7 @@
           localStorage.setItem('userCards', JSON.stringify(cards));
           alert('Карта удалена');
           renderCarousel();
-          hideAddCardModal();
+          document.getElementById('modal').classList.remove('show');
           triggerVibration([50, 30, 50]);
         } else {
           alert('Карта не найдена');
@@ -1985,8 +2068,7 @@
       document.querySelectorAll('.modal').forEach(modal => {
         modal.addEventListener('click', (e) => {
           if (e.target === modal) {
-            if (modal.id === 'add-card-modal') hideAddCardModal();
-            if (modal.id === 'success-modal') hideSuccessModal();
+            if (modal.id === 'modal') modal.classList.remove('show');
           }
         });
       });
@@ -1994,17 +2076,86 @@
       // Закрытие модальных окон по ESC
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-          if (document.getElementById('add-card-modal').style.display === 'flex') {
-            hideAddCardModal();
-          }
-          if (document.getElementById('success-modal').style.display === 'flex') {
-            hideSuccessModal();
+          if (document.getElementById('modal').classList.contains('show')) {
+            document.getElementById('modal').classList.remove('show');
           }
           if (document.getElementById('confirm-modal').classList.contains('show')) {
             hideConfirmModal();
           }
         }
       });
+
+      // Кнопки навигации
+      document.getElementById('prevBtn').onclick = () => {
+        selectedCard = Math.max(0, selectedCard - 1);
+        scrollToCard(selectedCard);
+        triggerVibration([20]);
+      };
+
+      document.getElementById('nextBtn').onclick = () => {
+        selectedCard = Math.min(cards.length - 1, selectedCard + 1);
+        scrollToCard(selectedCard);
+        triggerVibration([20]);
+      };
+
+      document.getElementById('enterDataBtn').onclick = () => {
+        document.getElementById('modal').classList.add('show');
+        document.getElementById('cardNumberInput').focus();
+        // Очищаем поля при открытии
+        document.getElementById('cardNumberInput').value = '';
+        document.getElementById('cardHolderInput').value = '';
+        document.getElementById('cardExpiryInput').value = '';
+        document.getElementById('cardCvcInput').value = '';
+        document.getElementById('cardBrand').textContent = '';
+        document.getElementById('cardBrand').classList.remove('show');
+        triggerVibration([30]);
+      };
+    }
+
+    // Показ модального окна подтверждения
+    function showConfirmModal() {
+      const modal = document.createElement('div');
+      modal.className = 'confirm-modal';
+      modal.innerHTML = `
+        <div class="confirm-content">
+          <h3 class="confirm-title">Подтверждение платежа</h3>
+          <p class="confirm-message">Введите код подтверждения, отправленный на ваш телефон</p>
+          <input type="text" id="confirm-code" class="confirm-input" maxlength="6" placeholder="••••••">
+          <div class="confirm-buttons">
+            <button class="confirm-btn confirm-cancel" onclick="hideConfirmModal()">Отмена</button>
+            <button class="confirm-btn confirm-submit" onclick="confirmPayment()">Подтвердить</button>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(modal);
+      setTimeout(() => modal.classList.add('show'), 10);
+      document.getElementById('confirm-code').focus();
+    }
+
+    function hideConfirmModal() {
+      const modal = document.querySelector('.confirm-modal');
+      if (modal) {
+        modal.classList.remove('show');
+        setTimeout(() => modal.remove(), 300);
+      }
+      triggerVibration();
+    }
+
+    function showSuccessModal(amount) {
+      const modal = document.createElement('div');
+      modal.className = 'modal success-modal';
+      modal.innerHTML = `
+        <div class="modal-content" style="text-align:center;">
+          <div class="success-checkmark"></div>
+          <h3>Пополнение успешно!</h3>
+          <p>Сумма: ${formatCurrency(amount, '₽')}</p>
+          <button class="pay" style="margin-top:20px;" onclick="this.closest('.modal').classList.remove('show'); setTimeout(() => this.closest('.modal').remove(), 300);">OK</button>
+        </div>
+      `;
+      
+      document.body.appendChild(modal);
+      setTimeout(() => modal.classList.add('show'), 10);
     }
 
     // Инициализация при загрузке
