@@ -737,11 +737,104 @@
       animation: spin 1s linear infinite;
     }
 
+    /* Модальное окно для добавления карты */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background-color: #1a1a1a;
+      padding: 20px;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .form-row {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      color: #aaa;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px;
+      background: #121212;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: white;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .modal-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .btn-primary {
+      background: #007aff;
+      color: white;
+    }
+
+    .btn-danger {
+      background: rgba(255, 59, 48, 0.1);
+      color: #ff3b30;
+    }
+
+    .add-card-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 16px;
+      background: #1a1a1a;
+      border: 1px dashed #444;
+      border-radius: 12px;
+      color: #aaa;
+      margin-top: 16px;
+      cursor: pointer;
+    }
+
+    .add-card-btn:hover {
+      border-color: #007aff;
+      color: #007aff;
+    }
+
+    /* Анимации */
     @keyframes spin {
       to { transform: translate(-50%, -50%) rotate(360deg); }
     }
 
-    /* Анимации */
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
@@ -913,6 +1006,10 @@
         <div class="carousel" id="carousel"></div>
       </div>
 
+      <button id="add-card-btn" class="add-card-btn" onclick="showAddCardModal()">
+        <span>+</span> Добавить новую карту
+      </button>
+
       <div>
         <div class="label">Сумма пополнения</div>
         <input id="amount-input" class="amount-input" placeholder="0.00" inputmode="decimal" value="1000">
@@ -932,6 +1029,48 @@
       </div>
 
       <button id="pay-btn" class="pay-btn">Пополнить</button>
+    </div>
+  </div>
+
+  <!-- Модальное окно для добавления карты -->
+  <div id="add-card-modal" class="modal">
+    <div class="modal-content">
+      <h3 class="modal-title">Введите данные карты</h3>
+      
+      <div class="form-row" style="position:relative;">
+        <label class="form-label">Номер карты</label>
+        <input id="card-number-input" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19">
+        <div id="card-brand" class="auto-brand"></div>
+      </div>
+      
+      <div class="form-row">
+        <label class="form-label">Имя держателя</label>
+        <input id="card-holder-input" class="form-input" placeholder="IVAN IVANOV">
+      </div>
+      
+      <div class="form-grid">
+        <div class="form-row">
+          <label class="form-label">Срок действия</label>
+          <input id="card-expiry-input" class="form-input" placeholder="MM/YY" maxlength="5">
+        </div>
+        <div class="form-row">
+          <label class="form-label">CVC/CVV</label>
+          <input id="card-cvc-input" class="form-input" placeholder="123" maxlength="4" inputmode="numeric">
+        </div>
+      </div>
+      
+      <button id="delete-card-btn" class="modal-btn btn-danger">Удалить карту</button>
+      <button id="save-card-btn" class="modal-btn btn-primary">Сохранить карту</button>
+    </div>
+  </div>
+
+  <!-- Модальное окно успешного пополнения -->
+  <div id="success-modal" class="modal">
+    <div class="modal-content" style="text-align:center;">
+      <div style="font-size: 60px; margin-bottom: 20px;">✓</div>
+      <h3>Пополнение успешно!</h3>
+      <p id="success-amount-text"></p>
+      <button class="modal-btn btn-primary" onclick="hideSuccessModal()">OK</button>
     </div>
   </div>
 
@@ -1101,6 +1240,32 @@
       triggerVibration();
     }
 
+    function showAddCardModal() {
+      document.getElementById('add-card-modal').style.display = 'flex';
+      document.getElementById('card-number-input').focus();
+      // Очищаем поля при открытии
+      document.getElementById('card-number-input').value = '';
+      document.getElementById('card-holder-input').value = '';
+      document.getElementById('card-expiry-input').value = '';
+      document.getElementById('card-cvc-input').value = '';
+      document.getElementById('card-brand').textContent = '';
+      triggerVibration();
+    }
+
+    function hideAddCardModal() {
+      document.getElementById('add-card-modal').style.display = 'none';
+    }
+
+    function showSuccessModal(amount) {
+      document.getElementById('success-amount-text').textContent = 
+        `Сумма: ${formatCurrency(amount, '₽')}`;
+      document.getElementById('success-modal').style.display = 'flex';
+    }
+
+    function hideSuccessModal() {
+      document.getElementById('success-modal').style.display = 'none';
+    }
+
     function handleProfileClick(action) {
       triggerVibration();
       if (typeof action === 'string' && action.startsWith('http')) {
@@ -1225,18 +1390,13 @@
     }
 
     // Логика страницы пополнения
-    function initPaymentPage() {
-      // Цвета для разных типов карт
-      const cardColors = {
-        'VISA': ['#1a1a2e', '#16213e'],
-        'MC': ['#191919', '#3a3a3a'],
-        'AMEX': ['#006fcf', '#003f7f'],
-        'MIR': ['#1a3e8c', '#0d2b6b']
-      };
+    let cards = [];
+    let exchangeRate = 75;
 
+    function initPaymentPage() {
       // Загрузка сохраненных карт из localStorage
       const storedCards = localStorage.getItem('userCards');
-      const cards = storedCards ? JSON.parse(storedCards) : [
+      cards = storedCards ? JSON.parse(storedCards) : [
         { 
           id: '1', 
           number: '•••• •••• •••• 3456', 
@@ -1257,150 +1417,333 @@
         }
       ];
 
-      const carousel = document.getElementById('carousel');
-      let exchangeRate = 75; // Начальное значение курса
-
-      // Рендер карусели карт
-      function renderCarousel() {
-        carousel.innerHTML = '';
-        cards.forEach((card, index) => {
-          const container = document.createElement('div');
-          container.className = 'card-container';
-          
-          const cardElement = document.createElement('div');
-          cardElement.className = 'card';
-          cardElement.dataset.index = index;
-          
-          cardElement.innerHTML = `
-            <div class="card-front" style="background: linear-gradient(145deg, ${cardColors[card.brand]?.[0] || '#141414'}, ${cardColors[card.brand]?.[1] || '#0a0a0a'});">
-              <div class="top">
-                <div class="chip">💳</div>
-                <div class="network">${card.brand}</div>
-              </div>
-              <div class="number">${card.number}</div>
-              <div class="holder">${card.holder} ${card.expiry}</div>
-            </div>
-            <div class="card-back">
-              <div class="top">
-                <div class="network">${card.brand}</div>
-              </div>
-              <div class="card-cvc">${card.cvc}</div>
-              <div class="card-number-back">${card.fullNumber.replace(/\d(?=\d{4})/g, '*')}</div>
-            </div>
-          `;
-          
-          cardElement.addEventListener('click', (e) => {
-            if (e.target.closest('.quick-amount') || e.target.closest('.pay-btn')) return;
-            
-            if (cardElement.classList.contains('flipped')) {
-              cardElement.classList.remove('flipped');
-            } else {
-              cardElement.classList.add('flipped');
-              setTimeout(() => {
-                if (cardElement.classList.contains('flipped')) {
-                  cardElement.classList.remove('flipped');
-                }
-              }, 5000);
-            }
-            triggerVibration();
-          });
-          
-          container.appendChild(cardElement);
-          carousel.appendChild(container);
-        });
-      }
-
-      // Форматирование валюты
-      function formatCurrency(amount, currency) {
-        return new Intl.NumberFormat('ru-RU', {
-          style: 'currency',
-          currency: currency === '$' ? 'USD' : 'RUB',
-          currencyDisplay: 'symbol'
-        }).format(amount).replace(/\s/g, ' ');
-      }
-
-      // Динамическая комиссия
-      function calculateCommission(amount) {
-        if (amount <= 1000) return 0.03; // 3%
-        if (amount <= 5000) return 0.025; // 2.5%
-        return 0.02; // 2%
-      }
-
-      // Обновление сумм
-      function updateAmounts() {
-        const amount = parseFloat(document.getElementById('amount-input').value) || 0;
-        const commissionRate = calculateCommission(amount);
-        const commission = amount * commissionRate;
-        const net = amount - commission;
-        const usd = net / exchangeRate;
-        
-        document.getElementById('entered-amount').textContent = formatCurrency(amount, '₽');
-        document.getElementById('commission-amount').textContent = `${(commissionRate * 100).toFixed(1)}% (${formatCurrency(commission, '₽')})`;
-        document.getElementById('net-amount').textContent = formatCurrency(net, '₽');
-        document.getElementById('usd-amount').textContent = formatCurrency(usd, '$');
-      }
-
-      // Дебаунс
-      function debounce(func, timeout = 300) {
-        let timer;
-        return (...args) => {
-          clearTimeout(timer);
-          timer = setTimeout(() => func.apply(this, args), timeout);
-        };
-      }
-
-      // Инициализация обработчиков событий
-      function initEventListeners() {
-        // Быстрый выбор суммы
-        document.querySelectorAll('.quick-amount').forEach(btn => {
-          btn.addEventListener('click', () => {
-            document.getElementById('amount-input').value = btn.dataset.amount;
-            updateAmounts();
-            triggerVibration();
-          });
-        });
-
-        // Ввод суммы
-        document.getElementById('amount-input').addEventListener('input', debounce(updateAmounts));
-
-        // Кнопка пополнения
-        document.getElementById('pay-btn').addEventListener('click', async () => {
-          const amount = parseFloat(document.getElementById('amount-input').value);
-          
-          if (!amount || amount <= 0) {
-            alert('Введите сумму пополнения');
-            return;
-          }
-          
-          const payBtn = document.getElementById('pay-btn');
-          payBtn.classList.add('loading');
-          
-          try {
-            // Имитация запроса к серверу
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            
-            // Успешное пополнение
-            alert(`Баланс успешно пополнен на ${formatCurrency(amount, '₽')}`);
-            triggerVibration();
-            
-            // Обновляем баланс в каюте
-            const currentBalance = parseInt(document.getElementById('balance').textContent);
-            document.getElementById('balance').textContent = currentBalance + amount;
-            
-            // Закрываем страницу пополнения
-            hidePaymentPage();
-          } catch (error) {
-            alert('Ошибка при пополнении баланса');
-          } finally {
-            payBtn.classList.remove('loading');
-          }
-        });
-      }
-
-      // Инициализация страницы
       renderCarousel();
+      initPaymentEventListeners();
       updateAmounts();
-      initEventListeners();
+    }
+
+    // Цвета для разных типов карт
+    const cardColors = {
+      'VISA': ['#1a1a2e', '#16213e'],
+      'MC': ['#191919', '#3a3a3a'],
+      'AMEX': ['#006fcf', '#003f7f'],
+      'MIR': ['#1a3e8c', '#0d2b6b']
+    };
+
+    // Форматирование валюты
+    function formatCurrency(amount, currency) {
+      return new Intl.NumberFormat('ru-RU', {
+        style: 'currency',
+        currency: currency === '$' ? 'USD' : 'RUB',
+        currencyDisplay: 'symbol'
+      }).format(amount).replace(/\s/g, ' ');
+    }
+
+    // Динамическая комиссия
+    function calculateCommission(amount) {
+      if (amount <= 1000) return 0.03; // 3%
+      if (amount <= 5000) return 0.025; // 2.5%
+      return 0.02; // 2%
+    }
+
+    // Рендер карусели карт
+    function renderCarousel() {
+      const carousel = document.getElementById('carousel');
+      carousel.innerHTML = '';
+      
+      cards.forEach((card, index) => {
+        const container = document.createElement('div');
+        container.className = 'card-container';
+        
+        const cardElement = document.createElement('div');
+        cardElement.className = 'card';
+        cardElement.dataset.index = index;
+        cardElement.dataset.id = card.id;
+        
+        cardElement.innerHTML = `
+          <div class="card-front" style="background: linear-gradient(145deg, ${cardColors[card.brand]?.[0] || '#141414'}, ${cardColors[card.brand]?.[1] || '#0a0a0a'});">
+            <div class="top">
+              <div class="chip">💳</div>
+              <div class="network">${card.brand}</div>
+            </div>
+            <div class="number">${card.number}</div>
+            <div class="holder">${card.holder} ${card.expiry}</div>
+          </div>
+          <div class="card-back">
+            <div class="top">
+              <div class="network">${card.brand}</div>
+            </div>
+            <div class="card-cvc">${card.cvc}</div>
+            <div class="card-number-back">${card.fullNumber.replace(/\d(?=\d{4})/g, '*')}</div>
+          </div>
+        `;
+        
+        cardElement.addEventListener('click', (e) => {
+          if (e.target.closest('.quick-amount') || e.target.closest('.pay-btn')) return;
+          
+          if (cardElement.classList.contains('flipped')) {
+            cardElement.classList.remove('flipped');
+          } else {
+            cardElement.classList.add('flipped');
+            setTimeout(() => {
+              if (cardElement.classList.contains('flipped')) {
+                cardElement.classList.remove('flipped');
+              }
+            }, 5000);
+          }
+          triggerVibration();
+        });
+        
+        container.appendChild(cardElement);
+        carousel.appendChild(container);
+      });
+    }
+
+    // Форматирование номера карты
+    function formatCardNumber(value) {
+      const v = value.replace(/\D/g,'').substring(0,16);
+      const parts = [];
+      for(let i = 0; i < v.length; i += 4) {
+        parts.push(v.substring(i, i + 4));
+      }
+      return parts.join(' ').trim();
+    }
+
+    // Автоматическое определение бренда карты
+    function detectCardBrand(number) {
+      const num = number.replace(/\D/g,'');
+      const brands = {
+        'VISA': /^4/,
+        'MASTERCARD': /^5[1-5]/,
+        'AMEX': /^3[47]/,
+        'MIR': /^2/,
+        'JCB': /^(2131|1800|35)/,
+        'DINERS': /^(36|38|30[0-5])/,
+        'DISCOVER': /^(6011|65|64[4-9])/
+      };
+      
+      for (const [brand, regex] of Object.entries(brands)) {
+        if (regex.test(num)) {
+          document.getElementById('card-brand').textContent = brand;
+          return brand;
+        }
+      }
+      
+      document.getElementById('card-brand').textContent = '';
+      return '';
+    }
+
+    // Обновление сумм
+    function updateAmounts() {
+      const amount = parseFloat(document.getElementById('amount-input').value) || 0;
+      const commissionRate = calculateCommission(amount);
+      const commission = amount * commissionRate;
+      const net = amount - commission;
+      const usd = net / exchangeRate;
+      
+      document.getElementById('entered-amount').textContent = formatCurrency(amount, '₽');
+      document.getElementById('commission-amount').textContent = `${(commissionRate * 100).toFixed(1)}% (${formatCurrency(commission, '₽')})`;
+      document.getElementById('net-amount').textContent = formatCurrency(net, '₽');
+      document.getElementById('usd-amount').textContent = formatCurrency(usd, '$');
+    }
+
+    // Дебаунс
+    function debounce(func, timeout = 300) {
+      let timer;
+      return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => func.apply(this, args), timeout);
+      };
+    }
+
+    // Инициализация обработчиков событий
+    function initPaymentEventListeners() {
+      // Быстрый выбор суммы
+      document.querySelectorAll('.quick-amount').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.getElementById('amount-input').value = btn.dataset.amount;
+          updateAmounts();
+          triggerVibration();
+        });
+      });
+
+      // Ввод суммы
+      document.getElementById('amount-input').addEventListener('input', debounce(updateAmounts));
+
+      // Кнопка пополнения
+      document.getElementById('pay-btn').addEventListener('click', async () => {
+        const amount = parseFloat(document.getElementById('amount-input').value);
+        
+        if (!amount || amount <= 0) {
+          alert('Введите сумму пополнения');
+          return;
+        }
+        
+        if (cards.length === 0) {
+          alert('Добавьте карту для пополнения');
+          return;
+        }
+        
+        const payBtn = document.getElementById('pay-btn');
+        payBtn.classList.add('loading');
+        
+        try {
+          // Имитация запроса к серверу
+          await new Promise(resolve => setTimeout(resolve, 1500));
+          
+          // Успешное пополнение
+          showSuccessModal(amount);
+          triggerVibration();
+          
+          // Обновляем баланс в каюте
+          const currentBalance = parseInt(document.getElementById('balance').textContent);
+          document.getElementById('balance').textContent = currentBalance + amount;
+          
+        } catch (error) {
+          alert('Ошибка при пополнении баланса');
+        } finally {
+          payBtn.classList.remove('loading');
+        }
+      });
+
+      // Форматирование номера карты
+      document.getElementById('card-number-input').addEventListener('input', (e) => {
+        const formatted = formatCardNumber(e.target.value);
+        if (e.target.value !== formatted) {
+          e.target.value = formatted;
+        }
+        detectCardBrand(e.target.value);
+      });
+
+      // Фиксированный ввод имени держателя
+      document.getElementById('card-holder-input').addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/[^A-Za-z\s]/g, '').toUpperCase();
+      });
+
+      // Форматирование срока действия
+      document.getElementById('card-expiry-input').addEventListener('input', (e) => {
+        const value = e.target.value.replace(/\D/g,'');
+        if (value.length > 2) {
+          e.target.value = `${value.substring(0,2)}/${value.substring(2,4)}`;
+        } else {
+          e.target.value = value;
+        }
+      });
+
+      // Ввод CVC/CVV
+      document.getElementById('card-cvc-input').addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/\D/g, '').substring(0, 4);
+      });
+
+      // Сохранение карты
+      document.getElementById('save-card-btn').addEventListener('click', () => {
+        const number = document.getElementById('card-number-input').value.trim();
+        const holder = document.getElementById('card-holder-input').value.trim().toUpperCase();
+        const expiry = document.getElementById('card-expiry-input').value.trim();
+        const cvc = document.getElementById('card-cvc-input').value.trim();
+        const brand = detectCardBrand(number) || 'UNKNOWN';
+
+        if(!number || number.replace(/\D/g,'').length < 16) {
+          alert('Введите корректный номер карты (16 цифр)');
+          return;
+        }
+        if(!holder) {
+          alert('Введите имя держателя карты');
+          return;
+        }
+        if(!expiry || !/^\d{2}\/\d{2}$/.test(expiry)) {
+          alert('Введите срок действия в формате MM/YY');
+          return;
+        }
+        if(!cvc || cvc.length < 3) {
+          alert('Введите корректный CVC/CVV код');
+          return;
+        }
+
+        // Форматируем номер для отображения
+        const maskedNumber = '•••• •••• •••• ' + number.slice(-4);
+        
+        // Проверяем, есть ли уже такая карта
+        const existingIndex = cards.findIndex(c => 
+          c.fullNumber === number.replace(/\D/g, '')
+        );
+        
+        if (existingIndex >= 0) {
+          // Обновляем существующую карту
+          cards[existingIndex] = {
+            ...cards[existingIndex],
+            holder,
+            expiry,
+            cvc,
+            brand
+          };
+          alert('Карта обновлена');
+        } else {
+          // Добавляем новую карту
+          const newCard = {
+            id: Date.now().toString(),
+            number: maskedNumber,
+            holder,
+            expiry,
+            brand,
+            cvc,
+            fullNumber: number.replace(/\D/g, '')
+          };
+          cards.push(newCard);
+          alert('Карта добавлена');
+        }
+        
+        // Сохраняем в localStorage
+        localStorage.setItem('userCards', JSON.stringify(cards));
+        
+        // Обновляем карусель
+        renderCarousel();
+        
+        // Закрываем модальное окно
+        hideAddCardModal();
+        triggerVibration();
+      });
+
+      // Удаление карты
+      document.getElementById('delete-card-btn').addEventListener('click', () => {
+        const number = document.getElementById('card-number-input').value.trim();
+        const cardIndex = cards.findIndex(c => 
+          c.fullNumber === number.replace(/\D/g, '')
+        );
+        
+        if (cardIndex >= 0) {
+          cards.splice(cardIndex, 1);
+          localStorage.setItem('userCards', JSON.stringify(cards));
+          alert('Карта удалена');
+          renderCarousel();
+          hideAddCardModal();
+          triggerVibration();
+        } else {
+          alert('Карта не найдена');
+        }
+      });
+
+      // Закрытие модальных окон по клику на фон
+      document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            if (modal.id === 'add-card-modal') hideAddCardModal();
+            if (modal.id === 'success-modal') hideSuccessModal();
+          }
+        });
+      });
+
+      // Закрытие модальных окон по ESC
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          if (document.getElementById('add-card-modal').style.display === 'flex') {
+            hideAddCardModal();
+          }
+          if (document.getElementById('success-modal').style.display === 'flex') {
+            hideSuccessModal();
+          }
+        }
+      });
     }
 
     // Инициализация при загрузке
