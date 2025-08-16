@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Каюта</title>
+  <title>Пиратская Каюта</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     /* Общие стили */
     body {
@@ -20,6 +21,7 @@
       padding-bottom: 90px;
       max-width: 500px;
       margin: 0 auto;
+      display: block;
     }
 
     .cabinet-container {
@@ -44,6 +46,9 @@
       cursor: pointer;
       transition: transform 0.3s;
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .avatar:hover {
@@ -69,6 +74,9 @@
       color: #e0e0e0;
       white-space: nowrap;
       z-index: 10;
+      max-width: 80%;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .level-label {
@@ -119,6 +127,11 @@
       font-weight: 500;
       font-size: 14px;
       cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .card-header button:hover {
+      background-color: #3E3E3E;
     }
 
     .info-grid {
@@ -237,58 +250,6 @@
       color: #b38e1e;
     }
 
-    /* Попапы */
-    #custom-popup-overlay,
-    #career-popup-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(10,10,10,0.85);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-
-    #custom-popup, #career-popup {
-      background: #1A1A1A;
-      border: 3px solid #ffffff;
-      border-radius: 18px;
-      max-width: 320px;
-      padding: 24px 28px;
-      text-align: center;
-      color: #ffffff;
-      box-shadow: 0 0 15px #ffffff;
-      font-weight: 600;
-      user-select: none;
-    }
-
-    #custom-popup h2, #career-popup h2 {
-      margin: 0 0 16px 0;
-      font-size: 20px;
-      color: #ffffff;
-      text-shadow: 0 0 5px #cccccc;
-    }
-
-    #custom-popup p, #career-popup p {
-      font-size: 16px;
-      color: #ffffff;
-      margin: 0 0 24px 0;
-      white-space: pre-line;
-      font-weight: 400;
-    }
-
-    #custom-popup button, #career-popup button {
-      background: #ffffff;
-      border: none;
-      border-radius: 12px;
-      padding: 12px 24px;
-      font-size: 16px;
-      font-weight: 700;
-      color: #1A1A1A;
-      cursor: pointer;
-      box-shadow: 0 0 8px #ffffff;
-    }
-
     /* Стили для страницы расходов */
     .expenses-page {
       position: fixed;
@@ -325,6 +286,11 @@
       padding: 8px 16px;
       border-radius: 20px;
       cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .back-button:hover {
+      background: #444444;
     }
 
     .top-boxes {
@@ -379,6 +345,11 @@
       cursor: pointer;
       color: #ffffff;
       border: 1px solid #333333;
+      transition: background 0.2s;
+    }
+
+    .calendar td:hover {
+      background: #3E3E3E;
     }
 
     .expense-list {
@@ -394,6 +365,11 @@
       justify-content: space-between;
       color: #ffffff;
       border: 1px solid #333333;
+      transition: transform 0.2s;
+    }
+
+    .expense-item:hover {
+      transform: translateY(-2px);
     }
 
     /* Стили для страницы управления профилем */
@@ -404,15 +380,14 @@
       width: 100%;
       height: 100%;
       background-color: #1A1A1A;
-      border: 3px solid #0A0A0A;
       z-index: 1000;
       overflow-y: auto;
       box-sizing: border-box;
       display: none;
+      padding: 20px;
     }
 
     .profile-management-container {
-      padding: 60px 20px 20px;
       max-width: 600px;
       margin: 0 auto;
       color: #ffffff;
@@ -430,6 +405,11 @@
       cursor: pointer;
       z-index: 1001;
       font-weight: 600;
+      transition: background 0.3s;
+    }
+
+    .profile-back-btn:hover {
+      background: #1A1A1A;
     }
 
     #profile-page h1 {
@@ -437,12 +417,15 @@
       margin-bottom: 20px;
       font-weight: bold;
       color: #e0e0e0;
+      text-align: center;
+      padding-top: 10px;
     }
 
     #profile-page .tabs {
       display: flex;
       border-bottom: 1px solid #222;
       margin-bottom: 25px;
+      justify-content: center;
     }
 
     #profile-page .tab {
@@ -466,13 +449,6 @@
       box-shadow: 0 0 8px rgba(255, 255, 255, 0.02);
       cursor: pointer;
       transition: all 0.3s ease;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 0.4s forwards;
-    }
-
-    @keyframes fadeInUp {
-      to { opacity: 1; transform: translateY(0); }
     }
 
     #profile-page .section:hover {
@@ -491,6 +467,10 @@
       border-radius: 50%;
       object-fit: cover;
       border: 1px solid #555;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
 
     #profile-page .field-block {
@@ -505,11 +485,33 @@
     #profile-page .field-block:hover {
       background-color: #252525;
     }
+
+    .profile-name {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .profile-label {
+      color: #aaa;
+      font-size: 14px;
+      margin-bottom: 3px;
+    }
+
+    /* Анимации */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
   </style>
 </head>
 <body>
   <!-- Страница каюты -->
-  <div id="cabinet-page" class="cabinet-page">
+  <div id="cabinet-page" class="cabinet-page fade-in">
     <div class="cabinet-container">
       <div class="avatar-section">
         <div class="avatar" id="avatar">
@@ -518,13 +520,13 @@
 
         <div class="level-username-wrapper">
           <div class="level-label" id="level-label">Юнга</div>
-          <div class="username" id="username"><!-- Имя будет вставлено через JavaScript --></div>
+          <div class="username" id="username">Загрузка...</div>
         </div>
       </div>
 
       <div class="cabinet-card">
         <div class="card-header">
-          <div>1100 <span class="pirate-currency">P‌</span></div>
+          <div><span id="balance">1100</span> <span class="pirate-currency">P‌</span></div>
           <button onclick="triggerVibration(); window.open('https://t.me/FOLLENSHAIDbot?startapp=a006ece711fd2bd0', '_blank')">Пополнить</button>
         </div>
 
@@ -558,29 +560,12 @@
     </div>
   </div>
 
-  <!-- Попапы для каюты -->
-  <div id="custom-popup-overlay">
-    <div id="custom-popup">
-      <h2>ПИРАТ, ТЫ ЕЩЕ НИЧЕГО НЕ КУПИЛ</h2>
-      <p>твоя скидка 0%\n\nЧтобы перейти на следующий уровень, соверши хотя бы 1 покупку</p>
-      <button id="close-popup-btn">Понял!</button>
-    </div>
-  </div>
-
-  <div id="career-popup-overlay">
-    <div id="career-popup">
-      <h2 id="career-title">Заголовок</h2>
-      <p id="career-text">Описание уровня</p>
-      <button onclick="closeCareerPopup()">Понял!</button>
-    </div>
-  </div>
-
   <!-- Страница расходов -->
   <div id="expenses-page" class="expenses-page">
     <div class="expenses-header">
       <button class="back-button" onclick="hideExpensesPage()">← Назад</button>
       <div class="expenses-title">Мои расходы</div>
-      <div style="width: 80px;"></div> <!-- Для выравнивания -->
+      <div style="width: 80px;"></div>
     </div>
 
     <div class="top-boxes">
@@ -610,7 +595,14 @@
     </table>
 
     <div class="expense-list" id="expense-list">
-      <!-- Список расходов будет здесь -->
+      <div class="expense-item">
+        <div>Покупка рома</div>
+        <div>500 P</div>
+      </div>
+      <div class="expense-item">
+        <div>Карта сокровищ</div>
+        <div>1200 P</div>
+      </div>
     </div>
   </div>
 
@@ -626,42 +618,39 @@
         <div class="tab">Вид профиля</div>
       </div>
 
-      <!-- Профиль -->
-      <div class="section profile" tabindex="0" onclick="handleProfileClick('Профиль')">
+      <div class="section profile" onclick="handleProfileClick('Профиль')">
         <div class="profile-row">
           <div class="profile-details">
-            <div class="profile-name" id="profile-username"><!-- Имя будет вставлено через JavaScript --></div>
+            <div class="profile-name" id="profile-username">Загрузка...</div>
             <div class="profile-label">Вольный моряк</div>
             <div class="profile-label">Номер профиля: <span id="profile-number">•••</span></div>
             <div class="profile-label">На FollenShaid с <span id="join-date">•••</span></div>
           </div>
-          <div class="profile-pic" id="profile-avatar-img"><!-- Аватар будет вставлен через JavaScript --></div>
+          <div class="profile-pic" id="profile-avatar-img"></div>
         </div>
       </div>
 
-      <!-- Подтверждение данных -->
-      <div class="section confirmation" tabindex="0">
+      <div class="section confirmation">
         <div class="section-title">Подтверждение данных</div>
-        <div class="field-block" tabindex="0" onclick="handleProfileClick('https://t.me/FOLLENSHAIDbot?startapp=c42bb671a2141229')">
+        <div class="field-block" onclick="handleProfileClick('https://t.me/FOLLENSHAIDbot?startapp=c42bb671a2141229')">
           <div class="field-label">Для частных лиц</div>
           <div class="field-value">По документам, личному кабинету в банке или через Госуслуги</div>
         </div>
 
-        <div class="field-block" tabindex="0" onclick="handleProfileClick('https://t.me/FOLLENSHAIDbot?startapp=22f807ee776b6229')">
+        <div class="field-block" onclick="handleProfileClick('https://t.me/FOLLENSHAIDbot?startapp=22f807ee776b6229')">
           <div class="field-label">Для самозанятых</div>
           <div class="field-value">По профилю на Госуслугах, T-ID или Сбер ID</div>
         </div>
 
-        <div class="field-block" tabindex="0" onclick="handleProfileClick('Для юридических лиц и ИП')">
+        <div class="field-block" onclick="handleProfileClick('Для юридических лиц и ИП')">
           <div class="field-label">Для юридических лиц и ИП</div>
           <div class="field-value">По реквизитам или личному кабинету в банке</div>
         </div>
       </div>
 
-      <!-- Привязка карты -->
-      <div class="section community" tabindex="0" onclick="handleProfileClick('Привязка карты')">
+      <div class="section community" onclick="handleProfileClick('Привязка карты')">
         <div class="section-title">Привязка банковской карты</div>
-        <div class="field-block" tabindex="0" onclick="handleProfileClick('Введи данные')">
+        <div class="field-block" onclick="handleProfileClick('Введи данные')">
           <div class="field-value">Введи данные</div>
         </div>
       </div>
@@ -669,15 +658,38 @@
   </div>
 
   <script>
+    // Основные функции
+    function triggerVibration() {
+      try {
+        if (window.Telegram?.WebApp?.HapticFeedback?.impactOccurred) {
+          Telegram.WebApp.HapticFeedback.impactOccurred('light');
+        } else {
+          // Эмуляция вибрации для тестирования вне Telegram
+          console.log("Vibration triggered");
+        }
+      } catch (e) {
+        console.warn('Vibration not supported', e);
+      }
+    }
+
     // Инициализация данных пользователя Telegram
     function initUserData() {
       // Проверяем, что WebApp Telegram доступен
       if (window.Telegram && Telegram.WebApp) {
+        console.log("Telegram WebApp detected");
+        
+        // Инициализируем WebApp
+        Telegram.WebApp.ready();
+        Telegram.WebApp.expand();
+        
+        // Получаем данные пользователя
         const user = Telegram.WebApp.initDataUnsafe?.user;
         
         if (user) {
+          console.log("User data:", user);
+          
           // Устанавливаем имя пользователя
-          const username = user.first_name || 'Пират';
+          const username = user.first_name || user.username || 'Пират';
           document.getElementById('username').textContent = username;
           document.getElementById('profile-username').textContent = username;
           
@@ -687,66 +699,87 @@
           const profileAvatarElement = document.getElementById('profile-avatar-img');
           
           if (avatarUrl) {
-            avatarElement.innerHTML = `<img src="${avatarUrl}" width="140" height="140" style="border-radius: 50%; width: 100%; height: 100%; object-fit: cover;" />`;
-            profileAvatarElement.innerHTML = `<img src="${avatarUrl}" width="60" height="60" style="border-radius: 50%; width: 100%; height: 100%; object-fit: cover;" />`;
+            console.log("Setting avatar from URL:", avatarUrl);
+            avatarElement.style.backgroundImage = `url(${avatarUrl})`;
+            avatarElement.style.backgroundSize = 'cover';
+            profileAvatarElement.style.backgroundImage = `url(${avatarUrl})`;
+            profileAvatarElement.style.backgroundSize = 'cover';
           } else {
             // Дефолтный аватар, если фото нет
-            const defaultAvatar = `
+            console.log("Using default avatar");
+            const defaultAvatarColor = `hsl(${Math.floor(Math.random() * 360)}, 70%, 50%)`;
+            avatarElement.innerHTML = `
               <svg width="140" height="140" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="70" cy="70" r="70" fill="#2E2E2E"/>
-                <text x="70" y="80" font-family="Arial" font-size="60" fill="white" text-anchor="middle" dominant-baseline="middle">${username.charAt(0).toUpperCase()}</text>
+                <circle cx="70" cy="70" r="70" fill="${defaultAvatarColor}"/>
+                <text x="70" y="80" font-family="Arial" font-size="60" fill="white" text-anchor="middle" dominant-baseline="middle">
+                  ${username.charAt(0).toUpperCase()}
+                </text>
               </svg>
             `;
-            avatarElement.innerHTML = defaultAvatar;
-            profileAvatarElement.innerHTML = defaultAvatar.replace('140', '60').replace('70', '30').replace('60', '30').replace('80', '40');
+            
+            profileAvatarElement.innerHTML = `
+              <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="30" cy="30" r="30" fill="${defaultAvatarColor}"/>
+                <text x="30" y="35" font-family="Arial" font-size="30" fill="white" text-anchor="middle" dominant-baseline="middle">
+                  ${username.charAt(0).toUpperCase()}
+                </text>
+              </svg>
+            `;
           }
+          
+          // Устанавливаем дату присоединения (примерная)
+          const joinDate = new Date(user.id * 1000);
+          document.getElementById('join-date').textContent = joinDate.toLocaleDateString('ru-RU');
+          
+          // Устанавливаем номер профиля (первые 4 цифры ID)
+          document.getElementById('profile-number').textContent = String(user.id).slice(0, 4);
+          
+          // Настраиваем кнопку "Назад" в Telegram
+          Telegram.WebApp.BackButton.show();
+          Telegram.WebApp.BackButton.onClick(handleBackButton);
+          
+        } else {
+          console.log("No user data available");
+          setupDemoData();
         }
+      } else {
+        console.log("Not in Telegram WebApp, using demo data");
+        setupDemoData();
       }
     }
 
-    // Функционал каюты
-    const careerDescriptions = {
-      "Юнга": "Ты только что прибыл на корабль! Начало пиратского пути.",
-      "Крыса трюма": "Ты уже освоился на судне, но пока прячешься в трюме.",
-      "Корсар": "Ты стал настоящим пиратом и уже участвуешь в абордаже.",
-      "Штурман": "Ты прокладываешь курс команды и ведёшь корабль вперёд.",
-      "Бывалый пёс": "Ты повидал штормы, битвы и сокровища. Опытный ветеран!"
-    };
+    function setupDemoData() {
+      const username = "Капитан Джек";
+      document.getElementById('username').textContent = username;
+      document.getElementById('profile-username').textContent = username;
+      
+      const avatarElement = document.getElementById('avatar');
+      const profileAvatarElement = document.getElementById('profile-avatar-img');
+      
+      avatarElement.innerHTML = `
+        <svg width="140" height="140" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="70" cy="70" r="70" fill="#2E2E2E"/>
+          <text x="70" y="80" font-family="Arial" font-size="60" fill="white" text-anchor="middle" dominant-baseline="middle">К</text>
+        </svg>
+      `;
+      
+      profileAvatarElement.innerHTML = `
+        <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="30" cy="30" r="30" fill="#2E2E2E"/>
+          <text x="30" y="35" font-family="Arial" font-size="30" fill="white" text-anchor="middle" dominant-baseline="middle">К</text>
+        </svg>
+      `;
+      
+      document.getElementById('join-date').textContent = new Date().toLocaleDateString('ru-RU');
+      document.getElementById('profile-number').textContent = '1234';
+    }
 
-    function triggerVibration() {
-      try {
-        if (window.Telegram?.WebApp?.HapticFeedback?.impactOccurred) {
-          Telegram.WebApp.HapticFeedback.impactOccurred('light');
-        }
-      } catch (e) {
-        console.warn('Vibration not supported', e);
+    function handleBackButton() {
+      if (document.getElementById('expenses-page').style.display === 'block') {
+        hideExpensesPage();
+      } else if (document.getElementById('profile-page').style.display === 'block') {
+        hideProfilePage();
       }
-    }
-
-    function changeLevel(level, buttonElement) {
-      const levelLabel = document.getElementById('level-label');
-      levelLabel.textContent = level;
-
-      const buttons = document.querySelectorAll('.career-button');
-      buttons.forEach(btn => btn.classList.remove('active'));
-      buttonElement.classList.add('active');
-
-      triggerVibration();
-    }
-
-    function openCareerPopup(level) {
-      const overlay = document.getElementById('career-popup-overlay');
-      const title = document.getElementById('career-title');
-      const text = document.getElementById('career-text');
-      title.textContent = level;
-      text.textContent = careerDescriptions[level] || 'Информация отсутствует';
-      overlay.style.display = 'flex';
-      triggerVibration();
-    }
-
-    function closeCareerPopup() {
-      const overlay = document.getElementById('career-popup-overlay');
-      overlay.style.display = 'none';
     }
 
     // Управление страницами
@@ -778,9 +811,50 @@
     function handleProfileClick(action) {
       triggerVibration();
       if (typeof action === 'string' && action.startsWith('http')) {
-        window.open(action, '_blank');
+        if (window.Telegram?.WebApp?.openLink) {
+          Telegram.WebApp.openLink(action);
+        } else {
+          window.open(action, '_blank');
+        }
       } else {
-        // Другая обработка клика
+        console.log("Action:", action);
+      }
+    }
+
+    // Логика пиратской карьеры
+    const careerDescriptions = {
+      "Юнга": "Ты только что прибыл на корабль! Начало пиратского пути.",
+      "Крыса трюма": "Ты уже освоился на судне, но пока прячешься в трюме.",
+      "Корсар": "Ты стал настоящим пиратом и уже участвуешь в абордаже.",
+      "Штурман": "Ты прокладываешь курс команды и ведёшь корабль вперёд.",
+      "Бывалый пёс": "Ты повидал штормы, битвы и сокровища. Опытный ветеран!"
+    };
+
+    function changeLevel(level, buttonElement) {
+      const levelLabel = document.getElementById('level-label');
+      levelLabel.textContent = level;
+
+      const buttons = document.querySelectorAll('.career-button');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      buttonElement.classList.add('active');
+
+      // Показываем попап с описанием уровня
+      showCareerPopup(level);
+      triggerVibration();
+    }
+
+    function showCareerPopup(level) {
+      const title = level;
+      const text = careerDescriptions[level] || 'Информация отсутствует';
+      
+      if (window.Telegram?.WebApp?.showPopup) {
+        Telegram.WebApp.showPopup({
+          title: title,
+          message: text,
+          buttons: [{ type: 'ok' }]
+        });
+      } else {
+        alert(`${title}\n\n${text}`);
       }
     }
 
@@ -797,7 +871,10 @@
       const month = currentDate.getMonth();
       
       document.getElementById('current-month').textContent = 
-        new Date(year, month).toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' });
+        new Date(year, month).toLocaleDateString('ru-RU', { 
+          month: 'long', 
+          year: 'numeric' 
+        });
       
       const firstDay = new Date(year, month, 1);
       const lastDay = new Date(year, month + 1, 0);
@@ -822,6 +899,16 @@
             cell.textContent = '';
           } else {
             cell.textContent = date;
+            
+            // Подсветка текущего дня
+            const today = new Date();
+            if (date === today.getDate() && 
+                month === today.getMonth() && 
+                year === today.getFullYear()) {
+              cell.style.border = '1px solid #d4af37';
+              cell.style.boxShadow = '0 0 5px #d4af37';
+            }
+            
             date++;
           }
           
@@ -847,12 +934,7 @@
     // Инициализация при загрузке
     document.addEventListener('DOMContentLoaded', function() {
       initUserData();
-      
-      // Обработчик для кнопки закрытия попапа
-      document.getElementById('close-popup-btn').addEventListener('click', function() {
-        document.getElementById('custom-popup-overlay').style.display = 'none';
-        triggerVibration();
-      });
+      updateCalendar();
     });
   </script>
 </body>
