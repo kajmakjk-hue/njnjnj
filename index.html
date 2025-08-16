@@ -513,6 +513,234 @@
       padding: 16px;
     }
 
+    .payment-container {
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .payment-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      margin-bottom: 16px;
+    }
+
+    .payment-title {
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+      flex: 1;
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .carousel-wrap {
+      margin: 16px 0;
+      overflow: hidden;
+    }
+
+    .carousel {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 10px 12px 18px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .carousel::-webkit-scrollbar {
+      height: 6px;
+      display: block;
+    }
+
+    .carousel::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .carousel::-webkit-scrollbar-thumb {
+      background-color: #007aff;
+      border-radius: 3px;
+    }
+
+    .card-container {
+      perspective: 1000px;
+      flex: 0 0 auto;
+      width: 280px;
+      aspect-ratio: 85.6/53.98;
+    }
+
+    .card {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 16px;
+      padding: 12px;
+      background: linear-gradient(145deg, #141414, #0a0a0a);
+      border: 0.5px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.55);
+      color: white;
+      user-select: none;
+      backface-visibility: hidden;
+      scroll-snap-align: center;
+      transform-origin: center;
+      transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.65);
+    }
+
+    .card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backface-visibility: hidden;
+      border-radius: 16px;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+      background: linear-gradient(145deg, #0a0a0a, #141414);
+    }
+
+    .card-back::before {
+      content: "";
+      position: absolute;
+      top: 20px;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .card-cvc {
+      align-self: flex-end;
+      margin-top: auto;
+      padding: 6px 10px;
+      background: white;
+      color: black;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 14px;
+    }
+
+    .card-number-back {
+      font-family: monospace;
+      letter-spacing: 1px;
+      font-size: 14px;
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .amount-input {
+      width: 100%;
+      padding: 16px;
+      font-size: 24px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 12px;
+      color: white;
+      margin-top: 8px;
+    }
+
+    .quick-amounts {
+      display: flex;
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .quick-amount {
+      flex: 1;
+      padding: 12px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quick-amount:hover {
+      background: #333;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      margin: 12px 0;
+    }
+
+    .label {
+      color: #aaa;
+    }
+
+    .big {
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .pay-btn {
+      width: 100%;
+      padding: 16px;
+      background: #007aff;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: 600;
+      margin-top: 24px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .pay-btn:hover {
+      background: #0062cc;
+    }
+
+    .pay-btn.loading {
+      position: relative;
+      color: transparent;
+    }
+
+    .pay-btn.loading::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
     /* Анимации */
     @keyframes fadeIn {
       from { opacity: 0; }
@@ -674,10 +902,10 @@
 
   <!-- Страница пополнения -->
   <div id="payment-page">
-    <div class="container">
-      <div class="header">
-        <button class="btn back-btn" onclick="hidePaymentPage()">←</button>
-        <div class="title">Пополнение баланса</div>
+    <div class="payment-container">
+      <div class="payment-header">
+        <button class="back-btn" onclick="hidePaymentPage()">←</button>
+        <div class="payment-title">Пополнение баланса</div>
         <div style="width:40px;"></div>
       </div>
 
@@ -685,28 +913,25 @@
         <div class="carousel" id="carousel"></div>
       </div>
 
-      <div style="margin-top:24px">
-        <div class="row"><div class="label">Сумма пополнения</div></div>
-        <div style="position:relative">
-          <input id="amountInput" class="amount-input" placeholder="0.00" inputmode="decimal" value="1000">
-          <button id="voiceInputBtn" class="btn voice-btn" aria-label="Голосовой ввод">🎤</button>
-        </div>
+      <div>
+        <div class="label">Сумма пополнения</div>
+        <input id="amount-input" class="amount-input" placeholder="0.00" inputmode="decimal" value="1000">
       </div>
 
       <div class="quick-amounts">
-        <button class="btn quick-amount" data-amount="100">100 ₽</button>
-        <button class="btn quick-amount" data-amount="500">500 ₽</button>
-        <button class="btn quick-amount" data-amount="1000">1000 ₽</button>
+        <button class="quick-amount" data-amount="100">100 ₽</button>
+        <button class="quick-amount" data-amount="500">500 ₽</button>
+        <button class="quick-amount" data-amount="1000">1000 ₽</button>
       </div>
 
-      <div style="margin-top:12px">
-        <div class="row"><div class="label">Введено</div><div id="entered" class="big">0.00 ₽</div></div>
-        <div class="row"><div class="label">Комиссия</div><div id="commission" class="big">3%</div></div>
-        <div class="row"><div class="label">Чистыми</div><div id="net" class="big">0.00 ₽</div></div>
-        <div class="row"><div class="label">В USD (≈)</div><div id="usd" class="big">0.00 $</div></div>
+      <div>
+        <div class="row"><div class="label">Введено</div><div id="entered-amount" class="big">0.00 ₽</div></div>
+        <div class="row"><div class="label">Комиссия</div><div id="commission-amount" class="big">3%</div></div>
+        <div class="row"><div class="label">Чистыми</div><div id="net-amount" class="big">0.00 ₽</div></div>
+        <div class="row"><div class="label">В USD (≈)</div><div id="usd-amount" class="big">0.00 $</div></div>
       </div>
 
-      <button id="payBtn" class="pay white" aria-label="Оплатить">Пополнить</button>
+      <button id="pay-btn" class="pay-btn">Пополнить</button>
     </div>
   </div>
 
@@ -1001,6 +1226,14 @@
 
     // Логика страницы пополнения
     function initPaymentPage() {
+      // Цвета для разных типов карт
+      const cardColors = {
+        'VISA': ['#1a1a2e', '#16213e'],
+        'MC': ['#191919', '#3a3a3a'],
+        'AMEX': ['#006fcf', '#003f7f'],
+        'MIR': ['#1a3e8c', '#0d2b6b']
+      };
+
       // Загрузка сохраненных карт из localStorage
       const storedCards = localStorage.getItem('userCards');
       const cards = storedCards ? JSON.parse(storedCards) : [
@@ -1025,22 +1258,56 @@
       ];
 
       const carousel = document.getElementById('carousel');
-      let selectedCard = 0;
       let exchangeRate = 75; // Начальное значение курса
 
-      // Цвета для разных типов карт
-      const cardColors = {
-        'VISA': ['#1a1a2e', '#16213e'],
-        'MC': ['#191919', '#3a3a3a'],
-        'AMEX': ['#006fcf', '#003f7f'],
-        'MIR': ['#1a3e8c', '#0d2b6b']
-      };
-
-      // Динамическая комиссия
-      function calculateCommission(amount) {
-        if (amount <= 1000) return 0.03; // 3%
-        if (amount <= 5000) return 0.025; // 2.5%
-        return 0.02; // 2%
+      // Рендер карусели карт
+      function renderCarousel() {
+        carousel.innerHTML = '';
+        cards.forEach((card, index) => {
+          const container = document.createElement('div');
+          container.className = 'card-container';
+          
+          const cardElement = document.createElement('div');
+          cardElement.className = 'card';
+          cardElement.dataset.index = index;
+          
+          cardElement.innerHTML = `
+            <div class="card-front" style="background: linear-gradient(145deg, ${cardColors[card.brand]?.[0] || '#141414'}, ${cardColors[card.brand]?.[1] || '#0a0a0a'});">
+              <div class="top">
+                <div class="chip">💳</div>
+                <div class="network">${card.brand}</div>
+              </div>
+              <div class="number">${card.number}</div>
+              <div class="holder">${card.holder} ${card.expiry}</div>
+            </div>
+            <div class="card-back">
+              <div class="top">
+                <div class="network">${card.brand}</div>
+              </div>
+              <div class="card-cvc">${card.cvc}</div>
+              <div class="card-number-back">${card.fullNumber.replace(/\d(?=\d{4})/g, '*')}</div>
+            </div>
+          `;
+          
+          cardElement.addEventListener('click', (e) => {
+            if (e.target.closest('.quick-amount') || e.target.closest('.pay-btn')) return;
+            
+            if (cardElement.classList.contains('flipped')) {
+              cardElement.classList.remove('flipped');
+            } else {
+              cardElement.classList.add('flipped');
+              setTimeout(() => {
+                if (cardElement.classList.contains('flipped')) {
+                  cardElement.classList.remove('flipped');
+                }
+              }, 5000);
+            }
+            triggerVibration();
+          });
+          
+          container.appendChild(cardElement);
+          carousel.appendChild(container);
+        });
       }
 
       // Форматирование валюты
@@ -1052,89 +1319,25 @@
         }).format(amount).replace(/\s/g, ' ');
       }
 
-      // Рендер карусели
-      function renderCarousel(){
-        carousel.innerHTML='';
-        cards.forEach((c,i)=>{
-          const container = document.createElement('div');
-          container.className = 'card-container';
-          container.style.transitionDelay = `${i*0.1}s`;
-          
-          const div = document.createElement('div');
-          div.className = 'card';
-          div.dataset.index = i;
-          div.dataset.id = c.id;
-          
-          div.innerHTML = `
-            <div class="card-front" style="background: linear-gradient(145deg, ${cardColors[c.brand]?.[0] || '#141414'}, ${cardColors[c.brand]?.[1] || '#0a0a0a'});">
-              <div class="top">
-                <div class="chip">💳</div>
-                <div class="network">${c.brand}</div>
-              </div>
-              <div class="number">${c.number}</div>
-              <div class="holder">${c.holder} ${c.expiry}</div>
-            </div>
-            <div class="card-back">
-              <div class="top">
-                <div class="network">${c.brand}</div>
-              </div>
-              <div class="card-cvc">${c.cvc}</div>
-              <div class="card-number-back">${c.fullNumber.replace(/\d(?=\d{4})/g, '*')}</div>
-            </div>
-          `;
-          
-          div.addEventListener('click', (e) => {
-            // Игнорируем клики по кнопкам
-            if (e.target.closest('.btn')) return;
-            
-            // Если карта уже перевернута - возвращаем ее
-            if (div.classList.contains('flipped')) {
-              div.classList.remove('flipped');
-              triggerVibration();
-            } else {
-              // Иначе переворачиваем
-              div.classList.add('flipped');
-              triggerVibration();
-              
-              // Автоматически возвращаем через 5 секунд
-              setTimeout(() => {
-                if (div.classList.contains('flipped')) {
-                  div.classList.remove('flipped');
-                }
-              }, 5000);
-            }
-          });
-          
-          div.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            div.classList.toggle('flipped');
-            triggerVibration();
-          });
-          
-          container.appendChild(div);
-          carousel.appendChild(container);
-          
-          setTimeout(() => {
-            container.classList.add('visible');
-          }, 50);
-        });
+      // Динамическая комиссия
+      function calculateCommission(amount) {
+        if (amount <= 1000) return 0.03; // 3%
+        if (amount <= 5000) return 0.025; // 2.5%
+        return 0.02; // 2%
       }
 
-      // Обновление сумм при изменении ввода
-      const amountInput = document.getElementById('amountInput');
-      amountInput.addEventListener('input', debounce(updateAmounts));
-
+      // Обновление сумм
       function updateAmounts() {
-        const amount = parseFloat(amountInput.value) || 0;
+        const amount = parseFloat(document.getElementById('amount-input').value) || 0;
         const commissionRate = calculateCommission(amount);
         const commission = amount * commissionRate;
         const net = amount - commission;
         const usd = net / exchangeRate;
         
-        document.getElementById('entered').textContent = formatCurrency(amount, '₽');
-        document.getElementById('commission').textContent = `${(commissionRate * 100).toFixed(1)}% (${formatCurrency(commission, '₽')})`;
-        document.getElementById('net').textContent = formatCurrency(net, '₽');
-        document.getElementById('usd').textContent = formatCurrency(usd, '$');
+        document.getElementById('entered-amount').textContent = formatCurrency(amount, '₽');
+        document.getElementById('commission-amount').textContent = `${(commissionRate * 100).toFixed(1)}% (${formatCurrency(commission, '₽')})`;
+        document.getElementById('net-amount').textContent = formatCurrency(net, '₽');
+        document.getElementById('usd-amount').textContent = formatCurrency(usd, '$');
       }
 
       // Дебаунс
@@ -1146,53 +1349,58 @@
         };
       }
 
-      // Быстрый выбор суммы
-      document.querySelectorAll('.quick-amount').forEach(btn => {
-        btn.addEventListener('click', () => {
-          amountInput.value = btn.dataset.amount;
-          updateAmounts();
-          triggerVibration();
+      // Инициализация обработчиков событий
+      function initEventListeners() {
+        // Быстрый выбор суммы
+        document.querySelectorAll('.quick-amount').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.getElementById('amount-input').value = btn.dataset.amount;
+            updateAmounts();
+            triggerVibration();
+          });
         });
-      });
 
-      // Обработка платежа
-      document.getElementById('payBtn').onclick = async () => {
-        const amount = parseFloat(amountInput.value);
-        
-        if (!amount || amount <= 0) {
-          alert('Введите сумму пополнения');
-          return;
-        }
-        
-        if (cards.length === 0) {
-          alert('Добавьте карту для пополнения');
-          return;
-        }
-        
-        // Показываем индикатор загрузки
-        const payBtn = document.getElementById('payBtn');
-        payBtn.classList.add('loading');
-        
-        try {
-          // Имитация запроса к серверу
-          await new Promise(resolve => setTimeout(resolve, 1500));
+        // Ввод суммы
+        document.getElementById('amount-input').addEventListener('input', debounce(updateAmounts));
+
+        // Кнопка пополнения
+        document.getElementById('pay-btn').addEventListener('click', async () => {
+          const amount = parseFloat(document.getElementById('amount-input').value);
           
-          // Успешный платеж
-          alert(`Пополнение на ${formatCurrency(amount, '₽')} успешно!`);
+          if (!amount || amount <= 0) {
+            alert('Введите сумму пополнения');
+            return;
+          }
           
-          // Вибрация успеха
-          triggerVibration();
+          const payBtn = document.getElementById('pay-btn');
+          payBtn.classList.add('loading');
           
-        } catch (error) {
-          alert('Ошибка при обработке платежа');
-        } finally {
-          payBtn.classList.remove('loading');
-        }
-      };
+          try {
+            // Имитация запроса к серверу
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Успешное пополнение
+            alert(`Баланс успешно пополнен на ${formatCurrency(amount, '₽')}`);
+            triggerVibration();
+            
+            // Обновляем баланс в каюте
+            const currentBalance = parseInt(document.getElementById('balance').textContent);
+            document.getElementById('balance').textContent = currentBalance + amount;
+            
+            // Закрываем страницу пополнения
+            hidePaymentPage();
+          } catch (error) {
+            alert('Ошибка при пополнении баланса');
+          } finally {
+            payBtn.classList.remove('loading');
+          }
+        });
+      }
 
       // Инициализация страницы
       renderCarousel();
       updateAmounts();
+      initEventListeners();
     }
 
     // Инициализация при загрузке
