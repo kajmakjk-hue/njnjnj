@@ -559,7 +559,7 @@
     }
 
     .carousel-wrap {
-      margin: 16px 0;
+      margin: 14px 0 6px;
       overflow: hidden;
     }
 
@@ -1262,12 +1262,12 @@
 
   <script>
     // Основные функции
-    function triggerVibration() {
+    function triggerVibration(pattern = [50]) {
       try {
         if (window.Telegram?.WebApp?.HapticFeedback?.impactOccurred) {
           Telegram.WebApp.HapticFeedback.impactOccurred('light');
         } else if ('vibrate' in navigator) {
-          navigator.vibrate([50]);
+          navigator.vibrate(pattern);
         } else {
           console.log("Vibration triggered");
         }
